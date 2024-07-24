@@ -1,17 +1,17 @@
 "use client";
 import React from "react";
 import styles from "./Auth.module.scss";
-import { Button, Form, Input, message, notification } from "antd";
-import { LoginFormDTO } from "@/api/dto/auth.dto";
+import { Button, Form, Input, notification } from "antd";
+import { RegisterFormDTO } from "@/api/dto/auth.dto";
 import * as Api from "../../api";
 import { setCookie } from "nookies";
 
-const onSubmit = async (values: LoginFormDTO) => {
+const onSubmit = async (values: RegisterFormDTO) => {
   try {
-    const { token } = await Api.auth.login(values);
+    const { token } = await Api.auth.register(values);
 
     notification.success({
-      message: "Вы успешно авторизованы!!",
+      message: "Вы успешно зарегистрировались!",
       description: "Переходим в админ-панель ...",
       duration: 2,
     });
@@ -24,11 +24,11 @@ const onSubmit = async (values: LoginFormDTO) => {
       message: "Ошибка авторизации!",
       duration: 2,
     });
-    console.warn("LoginForm", error);
+    console.warn("LoginRegister", error);
   }
 };
 
-const LoginForm = () => {
+const RegisterForm = () => {
   return (
     <div className={styles.formBlock}>
       <Form
@@ -40,7 +40,7 @@ const LoginForm = () => {
         onFinish={onSubmit}
         autoComplete="off"
       >
-        <Form.Item<LoginFormDTO>
+        <Form.Item<RegisterFormDTO>
           label="E-mail"
           name="email"
           rules={[{ required: true, message: "Укажите почту" }]}
@@ -48,7 +48,15 @@ const LoginForm = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item<LoginFormDTO>
+        <Form.Item<RegisterFormDTO>
+          label="Имя"
+          name="fullName"
+          rules={[{ required: true, message: "Укажите имя пользователя" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item<RegisterFormDTO>
           label="Пароль"
           name="password"
           rules={[{ required: true, message: "Укажите пароль" }]}
@@ -66,4 +74,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
