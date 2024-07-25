@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import * as Api from "../../api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { FileList, FileSelectType } from "@/components/FileList";
 
 const DashboardPage: NextPage = async () => {
   const _token = cookies().get("_token")?.value;
@@ -20,8 +21,13 @@ const DashboardPage: NextPage = async () => {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Dashboard</h1>
+    <main>
+      <FileList
+        items={[]}
+        onFileSelect={function (id: string, type: FileSelectType): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
     </main>
   );
 };
